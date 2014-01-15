@@ -1,3 +1,4 @@
+require 'pry'
 class SortedArray
   attr_reader :internal_arr
 
@@ -38,22 +39,46 @@ class SortedArray
   end
 
   def each &block
-    raise NotImplementedError.new("You need to implement the each method!")
+    # loop over all elements in @internal_arr
+    # yield to each element
+
+    # let's keep track of our index
+    i = 0  
+    while i < @internal_arr.size
+      yield @internal_arr[i]
+      i += 1
+    end
+    @internal_arr
   end
 
   def map &block
-    raise NotImplementedError.new("You need to implement the map method!")
+    arr = []
+    each { |el| arr << yield(el) }
+    arr  
   end
 
   def map! &block
-    raise NotImplementedError.new("You need to implement the map! method!")
+    i = 0
+    each do |el|  
+      @internal_arr[i] = yield(el)
+      i += 1
+    end 
+    @internal_arr  
   end
 
-  def find value
-    raise NotImplementedError.new("You need to implement the find method!")
+  def find &block
+    each { |el| return el if yield(el) }
+    nil
   end
 
   def inject acc=nil, &block
-    raise NotImplementedError.new("You need to implement the inject method!")
+    each do |el|
+      if acc.nil?
+        acc = @internal_arr[0]
+      else
+        acc = yield acc, el
+      end
+    end
+    acc
   end
 end
