@@ -58,10 +58,8 @@ class SortedArray
   end
 
   def map! &block
-    i = 0
-    each do |el|  
-      @internal_arr[i] = yield(el)
-      i += 1
+    each_with_index do |el,index|  
+      @internal_arr[index] = yield(el)
     end 
     @internal_arr  
   end
