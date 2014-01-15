@@ -98,4 +98,16 @@ describe SortedArray do
       end
     end
   end
+
+  describe :each_with_index do
+    it 'should call the block with two arguments, the item and its index, for each element' do
+      expect do |b|
+        sorted_array.each_with_index &b 
+      end.to yield_successive_args([2,0],[3,1],[4,2],[7,3],[9,4])
+    end
+
+    it 'should return the original array' do
+      sorted_array.each_with_index { |el, index| }.should == [2,3,4,7,9]
+    end
+  end
 end

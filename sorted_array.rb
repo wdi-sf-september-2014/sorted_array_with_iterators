@@ -81,4 +81,12 @@ class SortedArray
     end
     acc
   end
+
+  def each_with_index &block
+    i = 0
+    each do |el|
+      yield el,i
+      i += 1
+    end   
+  end
 end
