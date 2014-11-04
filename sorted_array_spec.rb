@@ -17,17 +17,17 @@ describe SortedArray do
   describe 'initialize' do
     it 'can be instantiated' do
       sorted_array = SortedArray.new
-      sorted_array.class.should == SortedArray
+      expect(sorted_array.class).to be_a(SortedArray)
     end
     it 'can be given an array' do
       source = [4,7,3,9,2]
       sorted_array = SortedArray.new(source)
-      sorted_array.size.should == source.size
+      expect(sorted_array.size).to eq(source.size)
     end
     it 'is sorted if initialized with an array' do
       source = [4,7,3,9,2]
       sorted_array = SortedArray.new(source)
-      sorted_array[0...5].should == source.sort
+      expect(sorted_array[0...5]).to eq(source.sort)
     end
   end
 
@@ -39,27 +39,27 @@ describe SortedArray do
     end
 
     it 'indexes an element' do
-      @sorted_array[2].should == 4
+      expect(@sorted_array[2]).to eq(4)
     end
 
     it 'gives nil for an out of range element' do
-      @sorted_array[10].should == nil
+      expect(@sorted_array[10]).to be_nil
     end
 
     it 'indexes a range' do
-      @sorted_array[1..3].should == @source[1..3]
+      expect(@sorted_array[1..3]).to eq(@source[1..3])
     end
   end
 
   describe '#size' do
     it 'gives the size of []' do
       sorted_array = SortedArray.new
-      sorted_array.size.should == 0
+      expect(sorted_array.size).to eq(0)
     end
     it 'works with a starter array' do
       source = [4,7,3,9,2]
       sorted_array = SortedArray.new(source)
-      sorted_array.size.should == source.size
+      expect(sorted_array.size).to eq(source.size)
     end
   end
   describe '#add' do
@@ -69,13 +69,13 @@ describe SortedArray do
     end
     it 'can add an element' do
       @sorted_array.add(4)
-      @sorted_array.size.should == @source.size + 1
+      expect(@sorted_array.size).to eq(@source.size + 1)
     end
     it 'adds in the correct location' do
       @sorted_array.add(1)
       @sorted_array.add(10)
-      @sorted_array[-1].should == 10
-      @sorted_array[0].should == 1
+      expect(@sorted_array[-1]).to eq(10)
+      expect(@sorted_array[0]).to eq(1)
     end
   end
 
@@ -88,37 +88,37 @@ describe SortedArray do
 
     it 'gives 0 for an empty array' do
       @sorted_array.internal_arr = []
-      @sorted_array.first_larger_index(4).should == 0
+      expect(@sorted_array.first_larger_index(4)).to eq(0)
     end
 
     it 'can pick before or after a single element' do
       @sorted_array.internal_arr = [5]
-      @sorted_array.first_larger_index(4).should == 0
-      @sorted_array.first_larger_index(6).should == 1
+      expect(@sorted_array.first_larger_index(4)).to eq(0)
+      expect(@sorted_array.first_larger_index(6)).to eq(1)
     end
 
     it 'can pick before, after or between two elements' do
       @sorted_array.internal_arr = [5,7]
-      @sorted_array.first_larger_index(4).should == 0
-      @sorted_array.first_larger_index(6).should == 1
-      [1,2].include?(@sorted_array.first_larger_index(7)).should == true
-      @sorted_array.first_larger_index(8).should == 2
+      expect(@sorted_array.first_larger_index(4)).to eq(0)
+      expect(@sorted_array.first_larger_index(6)).to eq(1)
+      expect([1,2].include?(@sorted_array.first_larger_index(7))).to be_true 
+      expect(@sorted_array.first_larger_index(8)).to eq(2)
     end
 
     it 'can put an existing element on either side' do
       @sorted_array.internal_arr = [5]
-      [0,1].include?(@sorted_array.first_larger_index(5)).should == true
+      expect([0,1].include?(@sorted_array.first_larger_index(5))).to be_true 
     end
 
     it 'gives 0 for a new smallest' do
-      @sorted_array.first_larger_index(-4).should == 0
+      expect(@sorted_array.first_larger_index(-4)).to eq(0)
     end
 
     it 'gives the last index for a new largest' do
-      @sorted_array.first_larger_index(10).should == @sorted_array.size
+      expect(@sorted_array.first_larger_index(10)).to eq(@sorted_array.size)
     end
     it 'gives the right location' do
-      @sorted_array.first_larger_index(5).should == 3
+      expect(@sorted_array.first_larger_index(5)).to eq(3)
     end
   end
 
@@ -129,23 +129,23 @@ describe SortedArray do
       @sorted_array = SortedArray.new(@source)
     end
     it 'finds the middle item' do
-      @sorted_array.index("Lemur").should == 2
+      expect(@sorted_array.index("Lemur")).to eq(2)
     end
     it 'finds an item in the left half' do
-      @sorted_array.index("Crisis").should == 1
+      expect(@sorted_array.index("Crisis")).to eq(1)
     end
     it 'finds the last item' do
-      @sorted_array.index("Xanadu").should == 4
+      expect(@sorted_array.index("Xanadu")).to eq(4)
     end
     it 'returns nil for an item not in the array' do
-      @sorted_array.index("Boredom").should == nil
+      expect(@sorted_array.index("Boredom")).to be_nil
     end
 
     it 'returns nil for an item not in the array' do
-      @sorted_array.index("Aaron").should == nil
+      expect(@sorted_array.index("Aaron")).to be_nil 
     end
     it 'returns nil for an item greater than anything in the array' do
-      @sorted_array.index("Zebra").should == nil
+      expect(@sorted_array.index("Zebra")).to be_nil 
     end
   end
 
@@ -157,7 +157,7 @@ describe SortedArray do
         end
 
         it 'should return the array' do
-          sorted_array.each {|el| el }.should eq source
+          expect(sorted_array.each {|el| el }).to eq(source)
         end
       end
 
@@ -169,7 +169,7 @@ describe SortedArray do
         end
 
         it 'should return the original array' do
-          sorted_array.each_with_index { |el, index| }.should == [2,3,4,7,9]
+          expect(sorted_array.each_with_index { |el, index| }).to eq([2,3,4,7,9])
         end
       end
 
@@ -182,16 +182,16 @@ describe SortedArray do
         it_should_behave_like 'yield to all elements in sorted array', :map
 
         it 'should return an array' do
-          sorted_array.map {|el| el }.class.should eq Array
+          expect(sorted_array.map {|el| el }.class).to be_an(Array)
         end
 
         it 'array should not be the original array' do
           undesired_obj_id = sorted_array.internal_arr.object_id
-          sorted_array.map {|el| el }.object_id.should_not eq undesired_obj_id
+          expect(sorted_array.map {|el| el }.object_id).to eq(undesired_obj_id)
         end
 
         it 'returned array contains the values returned by the block' do
-          sorted_array.map { |el| el * 2 }.should eq [4,6,8,14,18]
+          expect(sorted_array.map { |el| el * 2 }).to eq([4,6,8,14,18])
         end
       end
     end
@@ -203,16 +203,16 @@ describe SortedArray do
         it_should_behave_like "yield to all elements in sorted array", :map!
 
         it 'should return an array' do
-          sorted_array.map! {|el| el }.class.should eq Array
+          expect(sorted_array.map! {|el| el }.class).to be_an(Array)
         end
 
         it 'array should be the original array' do
           desired_obj_id = sorted_array.internal_arr.object_id
-          sorted_array.map! {|el| el }.object_id.should eq desired_obj_id
+          expect(sorted_array.map! {|el| el }.object_id).to eq(desired_obj_id)
         end
 
         it 'should replace value of each element with the value returned by block' do
-          sorted_array.map! { |el| el * 2 }.should eq [4,6,8,14,18]
+          expect(sorted_array.map! { |el| el * 2 }).to eq([4,6,8,14,18])
         end
       end
     end
@@ -222,13 +222,13 @@ describe SortedArray do
     describe 'given a block' do
       it 'should return the element for which the block is true' do
         # let's see if we can get a multiple of 7
-        sorted_array.find { |el| el % 7 == 0 }.should eq 7
+        expect(sorted_array.find { |el| el % 7 == 0 }).to eq(7)
       end
 
       context 'cannot find the element' do
         it 'should return nil' do
           # a multiple of 10 should not exist
-          sorted_array.find { |el| el % 10 == 0 }.should be_nil
+          expect(sorted_array.find { |el| el % 10 == 0 }).to be_nil
         end
       end
     end
@@ -237,13 +237,13 @@ describe SortedArray do
   describe :inject do
     context 'when passed no accumulator' do
       it 'should accumulate from the first element' do
-        sorted_array.inject { |acc,el| acc + el }.should == 25
+        expect(sorted_array.inject { |acc,el| acc + el }).to eq(25)
       end
     end
 
     context 'when passed an accumulator' do
       it 'should accumulate starting with that value' do
-        sorted_array.inject(5) { |acc,el| acc + el }.should == 30
+        expect(sorted_array.inject(5) { |acc,el| acc + el }).to eq(30)
       end
     end
   end
