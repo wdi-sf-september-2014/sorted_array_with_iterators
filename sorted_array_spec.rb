@@ -17,7 +17,7 @@ describe SortedArray do
   describe 'initialize' do
     it 'can be instantiated' do
       sorted_array = SortedArray.new
-      expect(sorted_array.class).to be_a(SortedArray)
+      expect(sorted_array.class).to eq(SortedArray)
     end
     it 'can be given an array' do
       source = [4,7,3,9,2]
@@ -101,13 +101,13 @@ describe SortedArray do
       @sorted_array.internal_arr = [5,7]
       expect(@sorted_array.first_larger_index(4)).to eq(0)
       expect(@sorted_array.first_larger_index(6)).to eq(1)
-      expect([1,2].include?(@sorted_array.first_larger_index(7))).to be_true 
+      expect([1,2].include?(@sorted_array.first_larger_index(7))).to eq(true) 
       expect(@sorted_array.first_larger_index(8)).to eq(2)
     end
 
     it 'can put an existing element on either side' do
       @sorted_array.internal_arr = [5]
-      expect([0,1].include?(@sorted_array.first_larger_index(5))).to be_true 
+      expect([0,1].include?(@sorted_array.first_larger_index(5))).to eq(true) 
     end
 
     it 'gives 0 for a new smallest' do
@@ -182,12 +182,12 @@ describe SortedArray do
         it_should_behave_like 'yield to all elements in sorted array', :map
 
         it 'should return an array' do
-          expect(sorted_array.map {|el| el }.class).to be_an(Array)
+          expect(sorted_array.map {|el| el }.class).to eq(Array)
         end
 
         it 'array should not be the original array' do
           undesired_obj_id = sorted_array.internal_arr.object_id
-          expect(sorted_array.map {|el| el }.object_id).to eq(undesired_obj_id)
+          expect(sorted_array.map {|el| el }.object_id).not_to eq(undesired_obj_id)
         end
 
         it 'returned array contains the values returned by the block' do
@@ -203,7 +203,7 @@ describe SortedArray do
         it_should_behave_like "yield to all elements in sorted array", :map!
 
         it 'should return an array' do
-          expect(sorted_array.map! {|el| el }.class).to be_an(Array)
+          expect(sorted_array.map! {|el| el }.class).to eq(Array)
         end
 
         it 'array should be the original array' do
@@ -245,6 +245,18 @@ describe SortedArray do
       it 'should accumulate starting with that value' do
         expect(sorted_array.inject(5) { |acc,el| acc + el }).to eq(30)
       end
+    end
+  end
+
+  describe :each_with_index do
+    it 'should call the block with two arguments, the item and its index, for each element' do
+      expect do |b|
+        sorted_array.each_with_index &b 
+      end.to yield_successive_args([2,0],[3,1],[4,2],[7,3],[9,4])
+    end
+
+    it 'should return the original array' do
+      expect(sorted_array.each_with_index { |el, index| }).to eq([2,3,4,7,9])
     end
   end
 end
