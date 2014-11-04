@@ -14,7 +14,7 @@ describe SortedArray do
   let(:source) { [2,3,4,7,9] }
   let(:sorted_array) { SortedArray.new source }
 
-    describe 'initialize' do
+  describe 'initialize' do
     it 'can be instantiated' do
       sorted_array = SortedArray.new
       sorted_array.class.should == SortedArray
@@ -185,12 +185,12 @@ describe SortedArray do
           sorted_array.map {|el| el }.class.should eq Array
         end
 
-        its 'array should not be the original array' do
+        it 'array should not be the original array' do
           undesired_obj_id = sorted_array.internal_arr.object_id
           sorted_array.map {|el| el }.object_id.should_not eq undesired_obj_id
         end
 
-        its 'returned array contains the values returned by the block' do
+        it 'returned array contains the values returned by the block' do
           sorted_array.map { |el| el * 2 }.should eq [4,6,8,14,18]
         end
       end
@@ -206,7 +206,7 @@ describe SortedArray do
           sorted_array.map! {|el| el }.class.should eq Array
         end
 
-        its 'array should be the original array' do
+        it 'array should be the original array' do
           desired_obj_id = sorted_array.internal_arr.object_id
           sorted_array.map! {|el| el }.object_id.should eq desired_obj_id
         end
